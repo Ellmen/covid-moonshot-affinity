@@ -3,6 +3,7 @@ rule all:
         "outputs/lipinski.txt",
         "outputs/fingerprint_cluster_cutoffs.pdf",
         "outputs/scaffold_cluster_cutoffs.pdf",
+        "outputs/ic50_distribution.pdf",
         "outputs/dag.svg"
 
 rule render_dag:
@@ -52,6 +53,14 @@ rule scaffold_cluster:
         "outputs/scaffold_cluster_cutoffs.pdf"
     script:
         "scripts/scaffold_cluster.py"
+
+rule plot_ic50:
+    input:
+        "data/sqlite/activity_data.db"
+    output:
+        "outputs/ic50_distribution.pdf"
+    script:
+        "scripts/plot_ic50.py"
 
 rule plot_regression:
     input:
