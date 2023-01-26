@@ -4,7 +4,9 @@ rule all:
         "outputs/fingerprint_cluster_cutoffs.pdf",
         "outputs/scaffold_cluster_cutoffs.pdf",
         "outputs/ic50_distribution.pdf",
-        "outputs/dag.svg"
+        "outputs/ic50_binders_distribution.pdf",
+        "outputs/dag.svg",
+        "data/sqlite/activity_data_labelled.db"
 
 rule render_dag:
     input:
@@ -56,11 +58,27 @@ rule scaffold_cluster:
 
 rule plot_ic50:
     input:
-        "data/sqlite/activity_data.db"
+        "data/sqlite/activity_data_labelled.db"
     output:
         "outputs/ic50_distribution.pdf"
     script:
         "scripts/plot_ic50.py"
+
+rule plot_ic50_binders:
+    input:
+        "data/sqlite/activity_data_labelled.db"
+    output:
+        "outputs/ic50_binders_distribution.pdf"
+    script:
+        "scripts/plot_ic50_binders.py"
+
+rule prep_ml_labels:
+    input:
+        "data/sqlite/activity_data.db"
+    output:
+        "data/sqlite/activity_data_labelled.db"
+    script:
+        "scripts/prep_ml_labels.py"
 
 rule plot_regression:
     input:

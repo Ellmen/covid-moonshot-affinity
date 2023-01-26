@@ -12,6 +12,7 @@ def plot_ic50(data_path, out_path):
     query = """
         SELECT pIC50
         FROM assays
+        WHERE did_bind = 1
     """
     res = cur.execute(query)
     pic50_values = [row[0] for row in res.fetchall()]
