@@ -2,6 +2,7 @@ rule all:
     input:
         "outputs/lipinski.txt",
         "outputs/fingerprint_cluster_cutoffs.pdf",
+        "outputs/scaffold_cluster_cutoffs.pdf",
         "outputs/dag.svg"
 
 rule render_dag:
@@ -43,6 +44,14 @@ rule fingerprint_cluster:
         "outputs/fingerprint_cluster_cutoffs.pdf"
     script:
         "scripts/fingerprint_cluster.py"
+
+rule scaffold_cluster:
+    input:
+        "data/sqlite/activity_data.db"
+    output:
+        "outputs/scaffold_cluster_cutoffs.pdf"
+    script:
+        "scripts/scaffold_cluster.py"
 
 rule plot_regression:
     input:
