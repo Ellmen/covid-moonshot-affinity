@@ -11,7 +11,16 @@ def add_descriptors(data_path, out_path):
     shutil.copyfile(data_path, out_path)
     con = sqlite3.connect(out_path)
     cur = con.cursor()
-    assays_df = pd.read_sql('SELECT * FROM assays', con, index_col='CID')
+    query = """
+        SELECT a.CID, a.f_avg_IC50, c.SMILES
+        FROM
+            assays a,
+            compounds c
+        WHERE
+            a.CID = c.CID
+    """
+    # assays_df = pd.read_sql('SELECT * FROM assays', con, index_col='CID')
+    assays_df = pd.read_sql(query, con, index_col='CID')
     assays_df['data_split'] = None
     assays_df['did_bind'] = 0
     assays_df = assays_df[assays_df['f_avg_IC50'].notnull()]
@@ -28,6 +37,9 @@ def add_descriptors(data_path, out_path):
     validate['data_split'] = 'validate'
     test['data_split'] = 'test'
     assays_df = pd.concat([train, validate, test])
+    # Only save the CID, SMILES, pIC50, did_bind, and data_split
+    assays_df = assays_df[['SMILES', 'pIC50', 'did_bind', 'data_split']]
+    print(assays_df)
     assays_df.to_sql('assays', con, if_exists='replace', index=True)
     con.close()
 
