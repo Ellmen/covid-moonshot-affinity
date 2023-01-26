@@ -1,6 +1,16 @@
 rule all:
     input:
-        "outputs/lipinski.txt"
+        "outputs/lipinski.txt",
+        "outputs/fingerprint_cluster_cutoffs.pdf",
+        "outputs/dag.svg"
+
+rule render_dag:
+    input:
+        "Snakefile"
+    output:
+        "outputs/dag.svg"
+    shell:
+        "snakemake --dag | dot -Tsvg > outputs/dag.svg"
 
 rule build_db:
     input:
@@ -25,6 +35,14 @@ rule explore_data:
         "outputs/lipinski.txt"
     script:
         "scripts/explore_data.py"
+
+rule fingerprint_cluster:
+    input:
+        "data/sqlite/activity_data.db"
+    output:
+        "outputs/fingerprint_cluster_cutoffs.pdf"
+    script:
+        "scripts/fingerprint_cluster.py"
 
 rule plot_regression:
     input:
