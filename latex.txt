@@ -1,0 +1,91 @@
+\subsection{Feature Selection}
+\begin{frame}[fragile]{Feature Selection}
+\begin{block}{Compute Descriptors}
+\begin{lstlisting}[firstnumber=1, label=glabels, xleftmargin=10pt] 
+def compute_descriptors(molecule):
+    descriptors ={}
+    for d in Descriptors.descList:
+        try:
+            value = d[1](molecule)
+            descriptors[d[0]] = value
+
+        except:
+            value = np.nan
+            descriptors[d[0]] = np.nan
+    descriptors = pd.Series(descriptors)
+    return descriptors
+
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Feature Selection}
+\begin{block}{Make Dataframe}
+\begin{lstlisting}[firstnumber=1, label=glabels, xleftmargin=10pt] 
+def pack_df(df_with_SMILES):
+    descriptorsdf = pd.DataFrame()
+    for index, row in df_with_SMILES.iterrows():
+    # Get the SMILES string of the compound
+        smiles = row['SMILES']
+    # Create a rdkit molecule object from SMILES
+        mol = Chem.MolFromSmiles(smiles)
+        des = compute_descriptors(mol)
+        for i in range(len(des)):
+                descriptorsdf.at[index,'{}'.format(des.index[i])] = des.values[i]
+    return descriptorsdf
+
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Feature Selection}
+\begin{block}{Feature Selection}
+\begin{lstlisting}[firstnumber=1, label=glabels, xleftmargin=10pt] 
+def feature_selection(Descriptors_df, y_df, k_feature = 10, task = 'regress', way = 'simple', rfe_step = 0.2):
+    if task == 'regress':
+        estimator = SVR(kernel="linear")
+    if task == 'classification':
+        estimator = LogisticRegression()
+    if way == 'simple':
+        selector = SelectKBest(f_classif, k=k_feature)
+    if wat == 'rfe':
+        selector = RFE(estimator, n_features_to_select=k_feature, step=rfe_step)
+    selector.fit(Descriptors_df, y_df)
+    top_k_idx = selector.get_support(indices=True)
+    return Descriptors_df.columns[top_k_idx]
+
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Best 10 Features}
+\setlength{\topsep}{3mm}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Feature Descriptor} & \textbf{Meaning} \\ 
+\hline
+
+PEOE\_VSA8 & Polarizability based on Eigenvalues of the \\ & Overlap matrix (PEOE) with 8 VSA \\ 
+\hline
+fr\_N\_O & Nitro group \\ 
+\hline
+fr\_diazo & Diazo group \\ 
+\hline
+fr\_dihydropyridine & Dihydropyridine group \\ 
+\hline
+fr\_hdrzine & Hydrazine group \\ 
+\hline
+fr\_ketone\_Topliss & Ketone group using Topliss method \\ 
+\hline
+fr\_lactam & Lactam group \\ 
+\hline
+fr\_oxazole & Oxazole group \\ 
+\hline
+fr\_sulfonamd & Sulfonamide group \\ 
+\hline
+fr\_sulfone & Sulfone group \\ 
+\hline
+\end{tabular}
+\end{frame}

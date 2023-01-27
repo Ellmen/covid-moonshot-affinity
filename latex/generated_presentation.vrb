@@ -1,0 +1,30 @@
+\frametitle{Best 10 parameters}
+
+\setlength{\topsep}{3mm}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Feature Descriptor} & \textbf{Meaning} \\
+\hline
+
+PEOE\_VSA8 & Polarizability based on Eigenvalues of the \\ & Overlap matrix (PEOE) with 8 VSA \\
+\hline
+fr\_N\_O & Nitro group \\
+\hline
+fr\_diazo & Diazo group \\
+\hline
+fr\_dihydropyridine & Dihydropyridine group \\
+\hline
+fr\_hdrzine & Hydrazine group \\
+\hline
+fr\_ketone\_Topliss & Ketone group using Topliss method \\
+\hline
+fr\_lactam & Lactam group \\
+\hline
+fr\_oxazole & Oxazole group \\
+\hline
+fr\_sulfonamd & Sulfonamide group \\
+\hline
+fr\_sulfone & Sulfone group \\
+\hline
+\end{tabular}
+

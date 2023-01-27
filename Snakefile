@@ -1,21 +1,14 @@
 rule all:
     input:
-        "outputs/lipinski.txt",
-        "outputs/fingerprint_cluster_cutoffs.pdf",
-        "outputs/scaffold_cluster_cutoffs.pdf",
-        "outputs/ic50_distribution.pdf",
-        "outputs/ic50_binders_distribution.pdf",
-        "outputs/dag.svg",
-        "outputs/test_classification_plot.pdf",
-        "outputs/test_regression_plot.pdf"
+        "latex/generated_presentation.pdf"
 
 rule render_dag:
     input:
         "Snakefile"
     output:
-        "outputs/dag.svg"
+        "outputs/dag.pdf"
     shell:
-        "snakemake --dag | dot -Tsvg > outputs/dag.svg"
+        "snakemake --dag | dot -Tpdf > outputs/dag.pdf"
 
 rule build_db:
     input:
@@ -83,7 +76,8 @@ rule prep_ml_labels:
 
 rule train_forest_classifier:
     input:
-        "data/sqlite/activity_data_labelled.db"
+        "data/sqlite/activity_data_labelled.db",
+        "scripts/utils/data_from_smiles.py"
     output:
         "outputs/forest_classifier_validation.pdf",
         "models/forest_classifier.joblib"
@@ -101,7 +95,8 @@ rule test_forest_classifier:
 
 rule train_forest_regressor:
     input:
-        "data/sqlite/activity_data_labelled.db"
+        "data/sqlite/activity_data_labelled.db",
+        "scripts/utils/data_from_smiles.py"
     output:
         "outputs/forest_regressor_validation.pdf",
         "models/forest_regressor.joblib"
@@ -117,11 +112,28 @@ rule test_forest_regressor:
     script:
         "scripts/test_forest_regressor.py"
 
-rule plot_regression:
+rule make_tex:
     input:
-        "models/linear_model.joblib",
-        "data/cleaned/airquality_cleaned.csv"
+        "outputs/lipinski.txt",
+        "outputs/fingerprint_cluster_cutoffs.pdf",
+        "outputs/scaffold_cluster_cutoffs.pdf",
+        "outputs/ic50_distribution.pdf",
+        "outputs/ic50_binders_distribution.pdf",
+        "outputs/dag.pdf",
+        "outputs/test_classification_plot.pdf",
+        "outputs/test_regression_plot.pdf"
     output:
-        "outputs/reg_plot.pdf"
+        "latex/generated_presentation.tex"
     script:
-        "scripts/plot_linear_model.py"
+        "scripts/make_tex.py"
+
+rule render_presentation:
+    input:
+        "latex/generated_presentation.tex"
+    output:
+        "latex/generated_presentation.pdf"
+    shell:
+        """
+        cd latex
+        pdflatex -interaction nonstopmode generated_presentation.tex
+        """

@@ -1,0 +1,18 @@
+\beamer@subsectionintoc {0}{1}{Introduction}{2}{0}{0}
+\beamer@subsectionintoc {0}{2}{Our workflow DAG}{3}{0}{0}
+\beamer@subsectionintoc {0}{3}{Building the SQLite DB}{4}{0}{0}
+\beamer@subsectionintoc {0}{4}{Fingerprint clustering - sensitivity to cutoff}{5}{0}{0}
+\beamer@subsectionintoc {0}{5}{Fingerprint clustering - class composition}{6}{0}{0}
+\beamer@subsectionintoc {0}{6}{Scaffold clustering - sensitivity to cutoff}{7}{0}{0}
+\beamer@subsectionintoc {0}{7}{Scaffold clustering - class composition}{8}{0}{0}
+\beamer@subsectionintoc {0}{8}{pIC50 distribution}{9}{0}{0}
+\beamer@subsectionintoc {0}{9}{pIC50 distribution (only binders)}{10}{0}{0}
+\beamer@subsectionintoc {0}{10}{Strategy}{11}{0}{0}
+\beamer@subsectionintoc {0}{11}{Compute descriptors}{12}{0}{0}
+\beamer@subsectionintoc {0}{12}{Make dataframe}{13}{0}{0}
+\beamer@subsectionintoc {0}{13}{Feature selection}{14}{0}{0}
+\beamer@subsectionintoc {0}{14}{Best 10 parameters}{15}{0}{0}
+\beamer@subsectionintoc {0}{15}{Classifier parameter tuning}{16}{0}{0}
+\beamer@subsectionintoc {0}{16}{Classifier testing ROC}{17}{0}{0}
+\beamer@subsectionintoc {0}{17}{Regressor paramter tuning}{18}{0}{0}
+\beamer@subsectionintoc {0}{18}{Regressor testing residuals}{19}{0}{0}
