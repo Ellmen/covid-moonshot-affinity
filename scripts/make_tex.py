@@ -203,6 +203,13 @@ fr\_sulfone & Sulfone group \\
     sections.append(make_section("Regressor testing residuals", """
 \\includegraphics[width=0.9\\textwidth]{../outputs/test_regression_plot.pdf}
     """))
+    sections.append(make_section("Conclusions", """
+\\begin{enumerate}
+    \\item Trained a classifier and a regressor for binding affinity
+    \\item Automated entire pipeline, from raw data to slides
+    \\item Need for standardization of data, metrics
+\\end{enumerate}
+    """))
     sections.append(doc_end)
     with open(out_path, 'w') as f:
         f.write('\n'.join(sections))
