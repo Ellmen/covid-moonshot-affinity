@@ -39,7 +39,6 @@ def add_descriptors(data_path, out_path):
     assays_df = pd.concat([train, validate, test])
     # Only save the CID, SMILES, pIC50, did_bind, and data_split
     assays_df = assays_df[['SMILES', 'pIC50', 'did_bind', 'data_split']]
-    print(assays_df)
     assays_df.to_sql('assays', con, if_exists='replace', index=True)
     con.close()
 

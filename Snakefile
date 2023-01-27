@@ -6,7 +6,8 @@ rule all:
         "outputs/ic50_distribution.pdf",
         "outputs/ic50_binders_distribution.pdf",
         "outputs/dag.svg",
-        "data/sqlite/activity_data_labelled.db"
+        "outputs/test_classification_plot.pdf",
+        "outputs/test_regression_plot.pdf"
 
 rule render_dag:
     input:
@@ -79,6 +80,42 @@ rule prep_ml_labels:
         "data/sqlite/activity_data_labelled.db"
     script:
         "scripts/prep_ml_labels.py"
+
+rule train_forest_classifier:
+    input:
+        "data/sqlite/activity_data_labelled.db"
+    output:
+        "outputs/forest_classifier_validation.pdf",
+        "models/forest_classifier.joblib"
+    script:
+        "scripts/train_forest_classifier.py"
+
+rule test_forest_classifier:
+    input:
+        "models/forest_classifier.joblib",
+        "data/sqlite/activity_data_labelled.db"
+    output:
+        "outputs/test_classification_plot.pdf"
+    script:
+        "scripts/test_forest_classifier.py"
+
+rule train_forest_regressor:
+    input:
+        "data/sqlite/activity_data_labelled.db"
+    output:
+        "outputs/forest_regressor_validation.pdf",
+        "models/forest_regressor.joblib"
+    script:
+        "scripts/train_forest_regressor.py"
+
+rule test_forest_regressor:
+    input:
+        "models/forest_regressor.joblib",
+        "data/sqlite/activity_data_labelled.db"
+    output:
+        "outputs/test_regression_plot.pdf"
+    script:
+        "scripts/test_forest_regressor.py"
 
 rule plot_regression:
     input:
